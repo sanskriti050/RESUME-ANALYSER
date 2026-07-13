@@ -1,0 +1,89 @@
+/* ==========================
+   ResumeLens AI - Modern UI
+   ========================== */
+
+/* Hide Streamlit Branding */
+#MainMenu,
+footer,
+header {
+    visibility: hidden;
+}
+
+/* Main Container */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 1200px;
+}
+
+/* Buttons */
+.stButton > button {
+    width: 100%;
+    border-radius: 12px;
+    padding: 0.7rem 1rem;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.25s ease;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+}
+
+/* File Uploader */
+[data-testid="stFileUploader"] {
+    border-radius: 14px;
+    padding: 15px;
+    border: 2px dashed #6C63FF;
+}
+
+/* Text Area */
+textarea {
+    border-radius: 10px !important;
+}
+
+/* Metric Cards */
+div[data-testid="stMetric"] {
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid rgba(150,150,150,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Progress Bar */
+.stProgress > div > div {
+    border-radius: 10px;
+}
+
+/* Select Box */
+[data-baseweb="select"] {
+    border-radius: 10px;
+}
+
+/* Download Button */
+.stDownloadButton > button {
+    width: 100%;
+    border-radius: 12px;
+    padding: 0.7rem;
+    font-weight: 600;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(150,150,150,0.15);
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    font-weight: 600;
+}
+
+/* Success / Warning / Info */
+[data-testid="stAlert"] {
+    border-radius: 12px;
+}
+
+/* Images */
+img {
+    border-radius: 10px;
+}
