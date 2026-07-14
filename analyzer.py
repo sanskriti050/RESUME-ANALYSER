@@ -1,22 +1,21 @@
 from groq import Groq
-from dotenv import load_dotenv
 import os
-import json
+from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-
-print("Loaded Key:", os.getenv("GROQ_API_KEY"))
+print("Groq Key =", os.getenv("GROQ_API_KEY"))
 
 client = Groq(
     api_key=os.getenv("GROQ_API_KEY")
 )
+
+
 def clean_json(response):
     response = response.replace("```json", "")
     response = response.replace("```", "")
     response = response.strip()
     return response
-
 
 
 def ask_llm(prompt):
@@ -28,7 +27,7 @@ def ask_llm(prompt):
                 "content": prompt
             }
         ],
-        temperature=0.2
+        temperature=0.7
     )
 
     return response.choices[0].message.content
