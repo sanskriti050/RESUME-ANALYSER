@@ -1,89 +1,196 @@
-/* ==========================
-   ResumeLens AI - Modern UI
-   ========================== */
+/* ===============================
+   ResumeLens AI - Premium UI
+================================= */
 
-/* Hide Streamlit Branding */
-#MainMenu,
-footer,
-header {
-    visibility: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
 }
 
-/* Main Container */
-.block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    max-width: 1200px;
+/* Background */
+.stApp{
+    background: linear-gradient(135deg,#081120 0%,#111b3d 45%,#1c2d63 100%);
+    color:white;
 }
 
-/* Buttons */
-.stButton > button {
-    width: 100%;
-    border-radius: 12px;
-    padding: 0.7rem 1rem;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.25s ease;
+/* Main container */
+.block-container{
+    padding-top:2rem;
+    padding-bottom:2rem;
+    max-width:1250px;
 }
 
-.stButton > button:hover {
-    transform: translateY(-2px);
+/* Headings */
+h1{
+    color:white !important;
+    font-size:3rem !important;
+    font-weight:800 !important;
 }
 
-/* File Uploader */
-[data-testid="stFileUploader"] {
-    border-radius: 14px;
-    padding: 15px;
-    border: 2px dashed #6C63FF;
+h2,h3{
+    color:#ffffff !important;
+    font-weight:700 !important;
 }
 
-/* Text Area */
-textarea {
-    border-radius: 10px !important;
-}
-
-/* Metric Cards */
-div[data-testid="stMetric"] {
-    border-radius: 16px;
-    padding: 18px;
-    border: 1px solid rgba(150,150,150,0.2);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* Progress Bar */
-.stProgress > div > div {
-    border-radius: 10px;
-}
-
-/* Select Box */
-[data-baseweb="select"] {
-    border-radius: 10px;
-}
-
-/* Download Button */
-.stDownloadButton > button {
-    width: 100%;
-    border-radius: 12px;
-    padding: 0.7rem;
-    font-weight: 600;
+/* Paragraph */
+p,label,span{
+    color:#d6def7 !important;
 }
 
 /* Sidebar */
-section[data-testid="stSidebar"] {
-    border-right: 1px solid rgba(150,150,150,0.15);
+[data-testid="stSidebar"]{
+    background:#0d1632;
+    border-right:1px solid rgba(255,255,255,.08);
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3{
+    color:white !important;
+}
+
+/* Buttons */
+.stButton>button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:.75rem;
+
+    font-weight:700;
+
+    color:white;
+
+    background:linear-gradient(90deg,#3b82f6,#7c3aed);
+
+    transition:.3s;
+}
+
+.stButton>button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 0 25px rgba(124,58,237,.45);
+
+    background:linear-gradient(90deg,#2563eb,#6d28d9);
+}
+
+/* Text Areas */
+
+textarea{
+
+    border-radius:15px !important;
+
+}
+
+/* Inputs */
+
+.stTextInput input{
+
+    border-radius:12px;
+
+}
+
+/* Selectbox */
+
+.stSelectbox div{
+
+    border-radius:12px;
+
+}
+
+/* Metric Cards */
+
+[data-testid="metric-container"]{
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(14px);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+}
+
+/* Progress Bar */
+
+.stProgress>div>div{
+
+    background:linear-gradient(90deg,#06b6d4,#8b5cf6);
+
+}
+
+/* File uploader */
+
+[data-testid="stFileUploader"]{
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    border:1px dashed rgba(255,255,255,.2);
+
+}
+
+/* Download buttons */
+
+.stDownloadButton button{
+
+    width:100%;
+
+    border-radius:14px;
+
+    font-weight:700;
+
 }
 
 /* Expander */
-.streamlit-expanderHeader {
-    font-weight: 600;
+
+.streamlit-expanderHeader{
+
+    font-size:18px;
+
+    font-weight:700;
+
 }
 
-/* Success / Warning / Info */
-[data-testid="stAlert"] {
-    border-radius: 12px;
+/* Divider */
+
+hr{
+
+    border:1px solid rgba(255,255,255,.08);
+
 }
 
-/* Images */
-img {
-    border-radius: 10px;
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#5b7cff;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#111827;
+
 }

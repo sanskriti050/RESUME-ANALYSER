@@ -9,7 +9,9 @@ from analyzer import (
     generate_interview_questions,
     generate_learning_roadmap,
     role_fit_analysis,
-    clean_json
+    clean_json,
+    resume_chatbot,
+    ai_resume_statistics
 )
 import json
 from report_generator import generate_pdf
@@ -32,38 +34,52 @@ load_css()
 
 # ---------------- SIDEBAR ---------------- #
 with st.sidebar:
-    st.title("📄 ResumeLens AI")
-    st.write("AI-Powered Resume Analyzer")
+
+
+    st.title("ResumeLens AI")
+
+    st.caption("AI Career Assistant")
 
     st.divider()
 
-    st.markdown("""
-### Features
-✅ Resume Summary
-
-✅ ATS Score
-
-✅ Skills Extraction
-
-✅ Resume Feedback
-
-✅ Job Description Matching
-""")
+    st.success("📄 Resume Analysis")
+    st.success("⭐ ATS Score")
+    st.success("🎯 JD Match")
+    st.success("🏢 Company Analysis")
+    st.success("✨ Resume Improvement")
+    st.success("📄 Cover Letter")
+    st.success("🎤 Interview Questions")
+    st.success("🗺 Learning Roadmap")
+    st.success("🤖 AI Chatbot")
 
     st.divider()
 
-    st.info("Upload your resume to get started.")
+    st.info("Built using Groq + Streamlit")
 
 # ---------------- MAIN PAGE ---------------- #
 
-st.title("📄 ResumeLens AI")
-st.subheader("AI-Powered Resume Analysis & ATS Checker")
+# ---------------- HERO SECTION ---------------- #
 
-st.write(
-    "Upload your resume in PDF format and get instant AI-powered insights."
-)
+st.markdown("""
+<div style="text-align:center;padding:30px 0;">
+
+<h1 style="font-size:58px;">
+🚀 ResumeLens AI
+</h1>
+
+<h3 style="color:#9db4ff;">
+Your AI Career Assistant
+</h3>
+
+<p style="font-size:18px;color:#d8def7;">
+Analyze Resume • ATS Score • JD Match • Resume Improvement • AI Chatbot
+</p>
+
+</div>
+""", unsafe_allow_html=True)
 
 st.divider()
+st.markdown("## 📄 Upload Resume")
 
 uploaded_file = st.file_uploader(
     "Upload Resume (PDF)",
@@ -72,64 +88,78 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file:
 
-    st.success("✅ Resume uploaded successfully!")
+    col1,col2=st.columns(2)
 
-    st.write("**Filename:**", uploaded_file.name)
-    st.write("**Size:**", round(uploaded_file.size / 1024, 2), "KB")
+    with col1:
+        st.info(f"📄 {uploaded_file.name}")
+
+    with col2:
+        st.info(f"📦 {round(uploaded_file.size/1024,2)} KB")
 
     st.divider()
 
     resume_text = extract_text_from_pdf(uploaded_file)
-    st.subheader("📄 Extracted Resume Text")
+    st.markdown("## 📑 Resume Preview")
 
     st.text_area(
         "Resume Content",
         resume_text,
         height=350
     )
-    st.subheader("📋 Job Description (Optional)")
+    left,right=st.columns(2)
 
-    job_description = st.text_area(
-        "Paste the Job Description here",
-        height=200,
-        placeholder="Paste the company's job description..."
-    )
-    st.subheader("🏢 Target Company")
+    with left:
 
-    company = st.selectbox(
-    "Select Company",
-        [
-        "General ATS",
-        "Google",
-        "Microsoft",
-        "Amazon",
-        "Adobe",
-        "Oracle",
-        "IBM",
-        "Infosys",
-        "TCS",
-        "Accenture"
-        ]
-    )
-    st.subheader("🎯 Target Role")
+        job_description=st.text_area(
+            "📋 Job Description",
+            height=220,
+            placeholder="Paste Job Description..."
+        )
 
-    role = st.selectbox(
-    "Select Role",
-        [
-        "Software Engineer",
-        "AI Engineer",
-        "ML Engineer",
-        "Data Analyst",
-        "Backend Developer",
-        "Frontend Developer",
-        "Full Stack Developer",
-        "Cloud Engineer"
-        ]
-    )
+    with right:
+
+        company=st.selectbox(
+            "🏢 Company",
+            [
+            "General ATS",
+            "Google",
+            "Microsoft",
+            "Amazon",
+            "Adobe",
+            "Oracle",
+            "IBM",
+            "Infosys",
+            "TCS",
+            "Accenture"
+            ]
+        )
+
+        role=st.selectbox(
+        "🎯 Target Role",
+            [
+            "Software Engineer",
+            "AI Engineer",
+            "ML Engineer",
+            "Data Analyst",
+            "Backend Developer",
+            "Frontend Developer",
+            "Full Stack Developer",
+            "Cloud Engineer"
+            ]
+        )
     if job_description.strip() == "":
         st.info("💡 Paste a Job Description to use Resume vs JD Match.")
     st.divider()
-    if st.button("🚀 Analyze Resume"):
+    col1,col2,col3=st.columns([1,2,1])
+
+    with col2:
+
+        analyze=st.button(
+        "🚀 Analyze Resume",
+            use_container_width=True
+        )
+
+    if analyze:
 
         with st.spinner("Analyzing Resume..."):
            result = analyze_resume(resume_text)
@@ -199,14 +229,39 @@ if uploaded_file:
                 st.markdown(f"• {topic}")
 
     # ⭐ ATS Score
-        col1, col2 = st.columns([1,3])
+        col1,col2,col3=st.columns(3)
+
+        with col1:
+
+            st.metric(
+            "⭐ ATS",
+                f"{data['ats_score']}%"
+            )
+
+        with col2:
+
+            st.metric(
+            "💻 Skills",
+                len(data["technical_skills"])
+            )
+
+        with col3:
+
+            st.metric(
+            "🔍 Missing",
+                len(data["missing_keywords"])
+            )
+
+        st.progress(data["ats_score"]/100)
 
         with col1:
             st.metric("⭐ ATS Score", f"{data['ats_score']}%")
 
         with col2:
             st.progress(data["ats_score"] / 100)
-        stats = resume_statistics(resume_text)
+        stats = json.loads(
+            ai_resume_statistics(resume_text)
+        )
 
         st.divider()
 
@@ -225,6 +280,7 @@ if uploaded_file:
 
         with col4:
             st.metric("🏆 Certifications", stats["certifications"])
+        st.divider()
         
         st.subheader("✅ Resume Checklist")
 
@@ -449,51 +505,51 @@ if uploaded_file:
 
             if job_description.strip() == "":
 
-                st.warning("Please paste a Job Description first.")
+                st.warning("⚠ Please paste a Job Description first.")
 
-        else:
+            else:
 
-            with st.spinner("Matching Resume with Job Description..."):
+                with st.spinner("Matching Resume with Job Description..."):
 
-                jd_result = match_resume_with_jd(
-                    st.session_state["resume_text"],
-                    job_description
-                )
+                    jd_result = match_resume_with_jd(
+                        st.session_state["resume_text"],
+                        job_description
+                    )
 
-            jd_result = jd_result.replace("```json", "").replace("```", "").strip()
+                jd_result = clean_json(jd_result)
 
-            jd_data = json.loads(jd_result)
+                jd_data = json.loads(jd_result)
 
-            st.subheader("📊 Resume vs Job Description Dashboard")
+                st.subheader("📊 Resume vs Job Description Dashboard")
 
-            col1, col2 = st.columns(2)
+                col1, col2 = st.columns(2)
 
-            with col1:
-                st.metric(
-                   "🎯 JD Match Score",
-                    f"{jd_data['match_score']}%"
-                )
+                with col1:
+                    st.metric(
+                        "🎯 JD Match Score",
+                        f"{jd_data['match_score']}%"
+                    )
 
-            with col2:
-                st.progress(jd_data["match_score"] / 100)
+                with col2:
+                    st.progress(jd_data["match_score"] / 100)
 
-            st.subheader("✅ Matched Skills")
+                st.subheader("✅ Matched Skills")
 
-            for skill in jd_data["matched_skills"]:
-                st.markdown(f"• {skill}")
+                for skill in jd_data["matched_skills"]:
+                    st.markdown(f"• {skill}")
 
-            st.subheader("❌ Missing Skills")
+                st.subheader("❌ Missing Skills")
 
-            for skill in jd_data["missing_skills"]:
-                st.markdown(f"• {skill}")
+                for skill in jd_data["missing_skills"]:
+                    st.markdown(f"• {skill}")
 
-            st.subheader("💡 ATS Recommendations")
+                st.subheader("💡 ATS Recommendations")
 
-            for tip in jd_data["recommendations"]:
-                st.markdown(f"• {tip}")
-            st.divider()
+                for tip in jd_data["recommendations"]:
+                    st.markdown(f"• {tip}")
+        st.markdown("# 🤖 AI Resume Assistant")
 
-        st.subheader("🤖 AI Resume Chatbot")
+        st.caption("Ask anything about your resume.")
 
         question = st.text_input(
             "Ask anything about your resume",
@@ -517,3 +573,14 @@ if uploaded_file:
                 st.subheader("🤖 AI Answer")
 
                 st.markdown(answer)
+            st.divider()
+
+            st.markdown("""
+<div style='text-align:center;color:gray;'>
+
+Made with ❤️ by Sanskriti Agarwal
+
+ResumeLens AI © 2026
+
+</div>
+"""             ,unsafe_allow_html=True)
