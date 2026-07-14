@@ -1,14 +1,14 @@
 from groq import Groq
 import os
-from dotenv import load_dotenv
-
-load_dotenv(override=True)
 
 print("Groq Key =", os.getenv("GROQ_API_KEY"))
 
-client = Groq(
-    api_key=os.getenv("GROQ_API_KEY")
-)
+api_key = os.getenv("GROQ_API_KEY")
+
+if not api_key:
+    raise Exception("GROQ_API_KEY missing")
+
+client = Groq(api_key=api_key)
 
 
 def clean_json(response):
