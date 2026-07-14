@@ -11,12 +11,15 @@ from analyzer import (
     role_fit_analysis,
     clean_json,
     resume_chatbot,
-    ai_resume_statistics
+    ai_resume_statistics,
+    recruiter_review
 )
 import json
 from report_generator import generate_pdf
 from utils import extract_text_from_pdf, resume_statistics
 from doc_generator import create_docx
+import plotly.express as px
+import plotly.graph_objects as go
 # ---------------- PAGE CONFIG ---------------- #
 st.set_page_config(
     page_title="ResumeLens AI",
@@ -547,6 +550,60 @@ if uploaded_file:
 
                 for tip in jd_data["recommendations"]:
                     st.markdown(f"• {tip}")
+
+        if st.button("👨‍💼 AI Recruiter Review"):
+
+            with st.spinner("Recruiter is reviewing your resume..."):
+
+                result = recruiter_review(
+                    st.session_state["resume_text"]
+                )
+
+            review = json.loads(result)
+
+            st.subheader("👨‍💼 AI Recruiter Review")
+
+            c1,c2,c3 = st.columns(3)
+
+            with c1:
+                st.metric(
+                    "⭐ Rating",
+                    f"{review['overall_rating']}/10"
+                )
+
+            with c2:
+                st.metric(
+                     "✅ Hire",
+                    review["hire_decision"]
+                )
+
+            with c3:
+                st.metric(
+                    "📈 Shortlisting",
+                    "{review['shortlisting_chance']}%"
+                )
+
+            st.success(f"💰 Estimated Salary : {review['salary_range']}")
+
+            st.subheader("😊 First Impression")
+            st.write(review["first_impression"])
+
+            st.subheader("💪 Strengths")
+            for item in review["strengths"]:
+                st.markdown(f"• {item}")
+
+            st.subheader("🚩 Red Flags")
+            for item in review["red_flags"]:
+                st.markdown(f"• {item}")
+
+            st.subheader("💡 Recommendations")
+            for item in review["recommendations"]:
+                st.markdown(f"• {item}")
+
+            st.subheader("🏢 Best Matching Companies")
+            for item in review["best_companies"]:
+                st.markdown(f"• {item}")
+
         st.markdown("# 🤖 AI Resume Assistant")
 
         st.caption("Ask anything about your resume.")

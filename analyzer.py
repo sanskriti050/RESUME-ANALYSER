@@ -687,3 +687,31 @@ Resume:
 
     result = ask_llm(prompt)
     return clean_json(result)   
+
+def recruiter_review(resume_text):
+
+    prompt = f"""
+You are an experienced Technical Recruiter.
+
+Analyze the resume and return ONLY valid JSON.
+
+{{
+    "overall_rating": 0,
+    "hire_decision": "",
+    "shortlisting_chance": 0,
+    "salary_range": "",
+    "first_impression": "",
+    "strengths": [],
+    "red_flags": [],
+    "recommendations": [],
+    "best_companies":[]
+}}
+
+Resume:
+
+{resume_text}
+"""
+
+    result = ask_llm(prompt)
+
+    return clean_json(result)
